@@ -29566,7 +29566,118 @@ if ("development" === 'production') {
 } else {
   module.exports = require('./cjs/react-dom.development.js');
 }
-},{"./cjs/react-dom.development.js":"../node_modules/react-dom/cjs/react-dom.development.js"}],"../node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
+},{"./cjs/react-dom.development.js":"../node_modules/react-dom/cjs/react-dom.development.js"}],"components/Timer.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _react = _interopRequireDefault(require("react"));
+
+var _reactDom = _interopRequireDefault(require("react-dom"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Timer = function Timer() {
+  return /*#__PURE__*/_react.default.createElement("p", {
+    className: "pomodoro__main__timer"
+  }, "5:00");
+};
+
+var _default = Timer;
+exports.default = _default;
+},{"react":"../node_modules/react/index.js","react-dom":"../node_modules/react-dom/index.js"}],"components/Button.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _react = _interopRequireDefault(require("react"));
+
+var _reactDom = _interopRequireDefault(require("react-dom"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Button = function Button(_ref) {
+  var name = _ref.name;
+  return /*#__PURE__*/_react.default.createElement("button", {
+    type: "button"
+  }, name);
+};
+
+var _default = Button;
+exports.default = _default;
+},{"react":"../node_modules/react/index.js","react-dom":"../node_modules/react-dom/index.js"}],"components/Buttons.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _react = _interopRequireDefault(require("react"));
+
+var _reactDom = _interopRequireDefault(require("react-dom"));
+
+var _Button = _interopRequireDefault(require("./Button.js"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Buttons = function Buttons(_ref) {
+  var name = _ref.name;
+  return /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement(_Button.default, {
+    name: "+"
+  }), /*#__PURE__*/_react.default.createElement(_Button.default, {
+    name: "resume/pause"
+  }), /*#__PURE__*/_react.default.createElement(_Button.default, {
+    name: "reset"
+  }), /*#__PURE__*/_react.default.createElement(_Button.default, {
+    name: "-"
+  }));
+};
+
+var _default = Buttons;
+exports.default = _default;
+},{"react":"../node_modules/react/index.js","react-dom":"../node_modules/react-dom/index.js","./Button.js":"components/Button.js"}],"components/Main.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _react = _interopRequireDefault(require("react"));
+
+var _reactDom = _interopRequireDefault(require("react-dom"));
+
+var _Timer = _interopRequireDefault(require("./Timer.js"));
+
+var _Buttons = _interopRequireDefault(require("./Buttons.js"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Main = function Main(_ref) {
+  var title = _ref.title;
+  return /*#__PURE__*/_react.default.createElement("div", {
+    className: "pomodoro"
+  }, /*#__PURE__*/_react.default.createElement("header", {
+    className: "pomodoro__header"
+  }, /*#__PURE__*/_react.default.createElement("h1", {
+    className: "pomodoro__header__heading"
+  }, title)), /*#__PURE__*/_react.default.createElement("main", {
+    className: "pomodoro__main"
+  }, /*#__PURE__*/_react.default.createElement(_Timer.default, null), /*#__PURE__*/_react.default.createElement(_Buttons.default, {
+    name: "bouton"
+  })));
+};
+
+var _default = Main;
+exports.default = _default;
+},{"react":"../node_modules/react/index.js","react-dom":"../node_modules/react-dom/index.js","./Timer.js":"components/Timer.js","./Buttons.js":"components/Buttons.js"}],"../node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
 var bundleURL = null;
 
 function getBundleURLCached() {
@@ -29633,7 +29744,7 @@ function reloadCSS() {
 }
 
 module.exports = reloadCSS;
-},{"./bundle-url":"../node_modules/parcel-bundler/src/builtins/bundle-url.js"}],"App.scss":[function(require,module,exports) {
+},{"./bundle-url":"../node_modules/parcel-bundler/src/builtins/bundle-url.js"}],"style/app.scss":[function(require,module,exports) {
 var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);
@@ -29645,16 +29756,21 @@ var _react = _interopRequireDefault(require("react"));
 
 var _reactDom = _interopRequireDefault(require("react-dom"));
 
-require("./App.scss");
+var _Main = _interopRequireDefault(require("./components/Main.js"));
+
+require("./style/app.scss");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var App = function App() {
-  return /*#__PURE__*/_react.default.createElement("h1", null, "Hello World");
-};
+  return /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement(_Main.default, {
+    title: "Pomodoro"
+  }));
+}; // export default App;
+
 
 _reactDom.default.render( /*#__PURE__*/_react.default.createElement(App, null), document.querySelector('#root'));
-},{"react":"../node_modules/react/index.js","react-dom":"../node_modules/react-dom/index.js","./App.scss":"App.scss"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","react-dom":"../node_modules/react-dom/index.js","./components/Main.js":"components/Main.js","./style/app.scss":"style/app.scss"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -29682,7 +29798,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52572" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60014" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
