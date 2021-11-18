@@ -13,6 +13,14 @@
     grid-template-columns: 3fr 1fr;
     &__timer{
       padding: 125px 0;
+      margin: 0 auto;
+    }
+    &__buttons{
+      width: 110px;
+      margin: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
     }
   }
 }
