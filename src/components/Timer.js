@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom'
 
 const Timer = () => {
   return (
-    <p className="pomodoro__main__timer">5:00</p>
+    <p className="pomodoro__main__timer">5</p>
   )
 }
 

@@ -4,7 +4,7 @@ import Button from './Button.js'
 
 const Buttons = ({name}) => {
   return (
-    <div>
+    <div className="pomodoro__main__buttons">
       <Button name="+"/>
       <Button name="resume/pause"/>
       <Button name="reset"/>
