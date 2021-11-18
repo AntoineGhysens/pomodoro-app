@@ -29583,7 +29583,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var Timer = function Timer() {
   return /*#__PURE__*/_react.default.createElement("p", {
     className: "pomodoro__main__timer"
-  }, "5:00");
+  }, "5");
 };
 
 var _default = Timer;
@@ -29629,7 +29629,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var Buttons = function Buttons(_ref) {
   var name = _ref.name;
-  return /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement(_Button.default, {
+  return /*#__PURE__*/_react.default.createElement("div", {
+    className: "pomodoro__main__buttons"
+  }, /*#__PURE__*/_react.default.createElement(_Button.default, {
     name: "+"
   }), /*#__PURE__*/_react.default.createElement(_Button.default, {
     name: "resume/pause"
@@ -29798,7 +29800,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60014" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62291" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
