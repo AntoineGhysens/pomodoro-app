@@ -1,9 +1,9 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-const Button = ({name}) => {
+const Button = ({name, handleClick, addClass}) => {
   return (
-    <button type="button">{name}</button>
+    <button onClick={handleClick} type="button" className={addClass}>{name}</button>
   )
 }
 

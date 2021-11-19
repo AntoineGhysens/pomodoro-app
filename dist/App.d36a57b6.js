@@ -29580,10 +29580,11 @@ var _reactDom = _interopRequireDefault(require("react-dom"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var Timer = function Timer() {
+var Timer = function Timer(_ref) {
+  var value = _ref.value;
   return /*#__PURE__*/_react.default.createElement("p", {
     className: "pomodoro__main__timer"
-  }, "5");
+  }, value);
 };
 
 var _default = Timer;
@@ -29603,9 +29604,13 @@ var _reactDom = _interopRequireDefault(require("react-dom"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var Button = function Button(_ref) {
-  var name = _ref.name;
+  var name = _ref.name,
+      handleClick = _ref.handleClick,
+      addClass = _ref.addClass;
   return /*#__PURE__*/_react.default.createElement("button", {
-    type: "button"
+    onClick: handleClick,
+    type: "button",
+    className: addClass
   }, name);
 };
 
@@ -29627,19 +29632,42 @@ var _Button = _interopRequireDefault(require("./Button.js"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var Buttons = function Buttons(_ref) {
-  var name = _ref.name;
+var Buttons = function Buttons() {
   return /*#__PURE__*/_react.default.createElement("div", {
     className: "pomodoro__main__buttons"
   }, /*#__PURE__*/_react.default.createElement(_Button.default, {
+    handleClick: increment,
+    addClass: "pomodoro__main__buttons__plus",
     name: "+"
   }), /*#__PURE__*/_react.default.createElement(_Button.default, {
+    handleClick: pauseResume,
+    addClass: "pomodoro__main__buttons__pause-resume",
     name: "resume/pause"
   }), /*#__PURE__*/_react.default.createElement(_Button.default, {
+    handleClick: reset,
+    addClass: "pomodoro__main__buttons__reset",
     name: "reset"
   }), /*#__PURE__*/_react.default.createElement(_Button.default, {
+    handleClick: decrement,
+    addClass: "pomodoro__main__buttons__minus",
     name: "-"
   }));
+};
+
+var increment = function increment() {
+  console.log("+"); // count += 1
+};
+
+var pauseResume = function pauseResume() {
+  console.log("pause/resume");
+};
+
+var reset = function reset() {
+  console.log("reset");
+};
+
+var decrement = function decrement() {
+  console.log("-");
 };
 
 var _default = Buttons;
@@ -29664,6 +29692,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var Main = function Main(_ref) {
   var title = _ref.title;
+  var count = 300;
   return /*#__PURE__*/_react.default.createElement("div", {
     className: "pomodoro"
   }, /*#__PURE__*/_react.default.createElement("header", {
@@ -29672,9 +29701,9 @@ var Main = function Main(_ref) {
     className: "pomodoro__header__heading"
   }, title)), /*#__PURE__*/_react.default.createElement("main", {
     className: "pomodoro__main"
-  }, /*#__PURE__*/_react.default.createElement(_Timer.default, null), /*#__PURE__*/_react.default.createElement(_Buttons.default, {
-    name: "bouton"
-  })));
+  }, /*#__PURE__*/_react.default.createElement(_Timer.default, {
+    value: count
+  }), /*#__PURE__*/_react.default.createElement(_Buttons.default, null)));
 };
 
 var _default = Main;
