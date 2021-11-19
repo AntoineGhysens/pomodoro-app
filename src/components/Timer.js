@@ -1,9 +1,9 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-const Timer = ({value}) => {
+const Timer = ({minutes, seconds, milliseconds}) => {
   return (
-    <p className="pomodoro__main__timer">{value}</p>
+    <p className="pomodoro__main__timer">{minutes} : {seconds}.{milliseconds}</p>
   )
 }
 
