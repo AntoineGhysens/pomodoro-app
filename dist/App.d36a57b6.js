@@ -29699,46 +29699,105 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 var Main = function Main(_ref) {
   var title = _ref.title;
-  var DEFAULT_COUNTDOWN = 5 * 60000;
 
-  var _useState = (0, _react.useState)(DEFAULT_COUNTDOWN),
+  var _useState = (0, _react.useState)(1),
       _useState2 = _slicedToArray(_useState, 2),
-      countdown = _useState2[0],
-      setCountdown = _useState2[1];
+      userDefinedProp = _useState2[0],
+      setUserDefinedProp = _useState2[1];
 
-  var _useState3 = (0, _react.useState)(false),
+  var _useState3 = (0, _react.useState)(userDefinedProp * 60000),
       _useState4 = _slicedToArray(_useState3, 2),
-      runState = _useState4[0],
-      setRunState = _useState4[1];
+      countdown = _useState4[0],
+      setCountdown = _useState4[1];
 
-  var _useState5 = (0, _react.useState)("start"),
+  var DEFAULT_TIME = countdown;
+
+  var _useState5 = (0, _react.useState)(false),
       _useState6 = _slicedToArray(_useState5, 2),
-      pauseResumeText = _useState6[0],
-      setPauseResumeText = _useState6[1]; // useEffect(()=>{
-  //   setInterval(()=>{
-  //     console.log(countdown)
-  //   }, 30000)
-  // },[])
+      runState = _useState6[0],
+      setRunState = _useState6[1];
+
+  var _useState7 = (0, _react.useState)("start"),
+      _useState8 = _slicedToArray(_useState7, 2),
+      pauseResumeText = _useState8[0],
+      setPauseResumeText = _useState8[1];
+
+  var _useState9 = (0, _react.useState)(0),
+      _useState10 = _slicedToArray(_useState9, 2),
+      msDisplayed = _useState10[0],
+      setMsDisplayed = _useState10[1];
+
+  var _useState11 = (0, _react.useState)(0),
+      _useState12 = _slicedToArray(_useState11, 2),
+      seconds = _useState12[0],
+      setSeconds = _useState12[1];
+
+  var _useState13 = (0, _react.useState)(userDefinedProp),
+      _useState14 = _slicedToArray(_useState13, 2),
+      minutes = _useState14[0],
+      setMinutes = _useState14[1]; // const manageTime = (cd) => {
+  //   getTimeMs(cd)
+  //   while(countdown%1000 == 999){
+  //     getTimeSeconds(cd)
+  //   }
+  //   while(countdown%60000 == 59999){
+  //     getTimeMinutes(cd)
+  //   }
+  // }
 
 
+  var getTimeMs = function getTimeMs(cd) {
+    if (cd % 1000 != 0) {
+      setMsDisplayed(msDisplayed - 1);
+    } else {
+      setMsDisplayed(999);
+    }
+
+    return msDisplayed;
+  };
+
+  var getTimeSeconds = function getTimeSeconds(cd) {
+    setSeconds(parseInt(cd / 1000 % 60));
+    return seconds;
+  };
+
+  var getTimeMinutes = function getTimeMinutes(cd) {
+    setMinutes(parseInt(cd / 60000));
+    return minutes; // let minutes = parseInt(ms/60000)
+  };
+
+  var runEveryFive = 0;
   (0, _react.useEffect)(function () {
     if (runState) {
-      var myVar = setInterval(function () {
+      var timeTicks = setInterval(function () {
         if (countdown === 0) {
-          clearInterval(myVar);
+          clearInterval(timeTicks);
           setRunState(false);
         } else {
+          // manageTime(countdown)
+          getTimeMs(countdown);
+          getTimeSeconds(countdown);
+          getTimeMinutes(countdown);
           setCountdown(countdown - 1);
         }
       }, 1);
       return function () {
-        return clearInterval(myVar);
+        return clearInterval(timeTicks);
       };
     }
-  }, [countdown, runState]);
+  }, [countdown, runState]); // useEffect(()=>{
+  //   setInterval(()=>{
+  //     console.log(countdown)
+  //   }, 5000)
+  // },[])
 
   var increment = function increment() {
-    setCountdown(countdown + 60000);
+    // setUserDefinedProp(userDefinedProp + 1)
+    if (countdown % 60000 == 0) {
+      // if(countdown == DEFAULT_TIME){
+      setCountdown(countdown + 60000);
+    } // setDEFAULT_COUNTDOWN_MINUTES
+
   };
 
   var pauseResume = function pauseResume() {
@@ -29752,31 +29811,16 @@ var Main = function Main(_ref) {
   };
 
   var reset = function reset() {
-    setCountdown(DEFAULT_COUNTDOWN);
+    setCountdown(userDefinedProp * 60000);
+    getTimeMs(countdown);
+    getTimeSeconds(countdown);
+    getTimeMinutes(countdown);
   };
 
   var decrement = function decrement() {
     setCountdown(countdown - 60000);
   };
 
-  var manageTime = function manageTime() {};
-
-  var getTimeMinutes = function getTimeMinutes(ms) {
-    var minutes = parseInt(ms / 60000);
-    return minutes;
-  };
-
-  var getTimeSeconds = function getTimeSeconds(ms) {
-    var seconds = parseInt(ms / 1000 % 60);
-    return seconds;
-  };
-
-  var getTimeMs = function getTimeMs(ms) {
-    var msDisplayed;
-    return msDisplayed;
-  };
-
-  console.log(getTimeSeconds());
   return /*#__PURE__*/_react.default.createElement("div", {
     className: "pomodoro"
   }, /*#__PURE__*/_react.default.createElement("header", {
@@ -29786,9 +29830,9 @@ var Main = function Main(_ref) {
   }, title)), /*#__PURE__*/_react.default.createElement("main", {
     className: "pomodoro__main"
   }, /*#__PURE__*/_react.default.createElement(_Timer.default, {
-    minutes: countdown,
-    seconds: countdown,
-    milliseconds: countdown
+    minutes: minutes,
+    seconds: seconds,
+    milliseconds: msDisplayed
   }), /*#__PURE__*/_react.default.createElement(_Buttons.default, {
     forIncrement: increment,
     forDecrement: decrement,
@@ -29921,7 +29965,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "58492" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62119" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
