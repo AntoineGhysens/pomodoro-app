@@ -5,9 +5,9 @@ import './style/app.scss'
 
 const App = () => {
   return (
-    <div>
+    <>
       <Main title="Pomodoro"/>
-    </div>
+    </>
   );
 }
 
