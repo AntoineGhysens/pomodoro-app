@@ -29582,11 +29582,10 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var Timer = function Timer(_ref) {
   var minutes = _ref.minutes,
-      seconds = _ref.seconds,
-      milliseconds = _ref.milliseconds;
+      seconds = _ref.seconds;
   return /*#__PURE__*/_react.default.createElement("p", {
     className: "pomodoro__main__timer"
-  }, minutes, " : ", seconds, ".", milliseconds);
+  }, minutes, " : ", seconds);
 };
 
 var _default = Timer;
@@ -29608,62 +29607,19 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var Button = function Button(_ref) {
   var name = _ref.name,
       handleClick = _ref.handleClick,
-      addClass = _ref.addClass;
+      addClass = _ref.addClass,
+      disabled = _ref.disabled;
   return /*#__PURE__*/_react.default.createElement("button", {
     onClick: handleClick,
     type: "button",
+    disabled: disabled,
     className: addClass
   }, name);
 };
 
 var _default = Button;
 exports.default = _default;
-},{"react":"../node_modules/react/index.js","react-dom":"../node_modules/react-dom/index.js"}],"components/Buttons.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-var _react = _interopRequireDefault(require("react"));
-
-var _reactDom = _interopRequireDefault(require("react-dom"));
-
-var _Button = _interopRequireDefault(require("./Button.js"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var Buttons = function Buttons(_ref) {
-  var forIncrement = _ref.forIncrement,
-      forPauseResume = _ref.forPauseResume,
-      forReset = _ref.forReset,
-      forDecrement = _ref.forDecrement,
-      pauseResumeStatus = _ref.pauseResumeStatus;
-  return /*#__PURE__*/_react.default.createElement("div", {
-    className: "pomodoro__main__buttons"
-  }, /*#__PURE__*/_react.default.createElement(_Button.default, {
-    handleClick: forIncrement,
-    addClass: "pomodoro__main__buttons__plus",
-    name: "+"
-  }), /*#__PURE__*/_react.default.createElement(_Button.default, {
-    handleClick: forPauseResume,
-    addClass: "pomodoro__main__buttons__pause-resume",
-    name: pauseResumeStatus
-  }), /*#__PURE__*/_react.default.createElement(_Button.default, {
-    handleClick: forReset,
-    addClass: "pomodoro__main__buttons__reset",
-    name: "reset"
-  }), /*#__PURE__*/_react.default.createElement(_Button.default, {
-    handleClick: forDecrement,
-    addClass: "pomodoro__main__buttons__minus",
-    name: "-"
-  }));
-};
-
-var _default = Buttons;
-exports.default = _default;
-},{"react":"../node_modules/react/index.js","react-dom":"../node_modules/react-dom/index.js","./Button.js":"components/Button.js"}],"components/Main.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","react-dom":"../node_modules/react-dom/index.js"}],"components/Main.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -29677,7 +29633,7 @@ var _reactDom = _interopRequireDefault(require("react-dom"));
 
 var _Timer = _interopRequireDefault(require("./Timer.js"));
 
-var _Buttons = _interopRequireDefault(require("./Buttons.js"));
+var _Button = _interopRequireDefault(require("./Button.js"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -29724,8 +29680,8 @@ var Main = function Main(_ref) {
 
   var _useState9 = (0, _react.useState)(0),
       _useState10 = _slicedToArray(_useState9, 2),
-      msDisplayed = _useState10[0],
-      setMsDisplayed = _useState10[1];
+      msInMemory = _useState10[0],
+      setMsInMemory = _useState10[1];
 
   var _useState11 = (0, _react.useState)(0),
       _useState12 = _slicedToArray(_useState11, 2),
@@ -29735,8 +29691,12 @@ var Main = function Main(_ref) {
   var _useState13 = (0, _react.useState)(userDefinedProp),
       _useState14 = _slicedToArray(_useState13, 2),
       minutes = _useState14[0],
-      setMinutes = _useState14[1]; // const manageTime = (cd) => {
-  //   getTimeMs(cd)
+      setMinutes = _useState14[1];
+
+  var _useState15 = (0, _react.useState)(true),
+      _useState16 = _slicedToArray(_useState15, 2),
+      firstRender = _useState16[0],
+      setFirstRender = _useState16[1]; // const manageTime = (cd) => {
   //   while(countdown%1000 == 999){
   //     getTimeSeconds(cd)
   //   }
@@ -29747,13 +29707,7 @@ var Main = function Main(_ref) {
 
 
   var getTimeMs = function getTimeMs(cd) {
-    if (cd % 1000 != 0) {
-      setMsDisplayed(msDisplayed - 1);
-    } else {
-      setMsDisplayed(999);
-    }
-
-    return msDisplayed;
+    return;
   };
 
   var getTimeSeconds = function getTimeSeconds(cd) {
@@ -29763,10 +29717,14 @@ var Main = function Main(_ref) {
 
   var getTimeMinutes = function getTimeMinutes(cd) {
     setMinutes(parseInt(cd / 60000));
-    return minutes; // let minutes = parseInt(ms/60000)
-  };
+    return minutes;
+  }; // if(firstRender){
+  //   setFirstRender(false)
+  //   getTimeSeconds(countdown)
+  //   getTimeMinutes(countdown)
+  // }
 
-  var runEveryFive = 0;
+
   (0, _react.useEffect)(function () {
     if (runState) {
       var timeTicks = setInterval(function () {
@@ -29775,12 +29733,11 @@ var Main = function Main(_ref) {
           setRunState(false);
         } else {
           // manageTime(countdown)
-          getTimeMs(countdown);
+          setCountdown(countdown - 1000);
           getTimeSeconds(countdown);
           getTimeMinutes(countdown);
-          setCountdown(countdown - 1);
         }
-      }, 1);
+      }, 1000);
       return function () {
         return clearInterval(timeTicks);
       };
@@ -29792,8 +29749,8 @@ var Main = function Main(_ref) {
   // },[])
 
   var increment = function increment() {
-    // setUserDefinedProp(userDefinedProp + 1)
     if (countdown % 60000 == 0) {
+      // setUserDefinedProp(userDefinedProp + 1)
       // if(countdown == DEFAULT_TIME){
       setCountdown(countdown + 60000);
     } // setDEFAULT_COUNTDOWN_MINUTES
@@ -29812,7 +29769,6 @@ var Main = function Main(_ref) {
 
   var reset = function reset() {
     setCountdown(userDefinedProp * 60000);
-    getTimeMs(countdown);
     getTimeSeconds(countdown);
     getTimeMinutes(countdown);
   };
@@ -29831,20 +29787,31 @@ var Main = function Main(_ref) {
     className: "pomodoro__main"
   }, /*#__PURE__*/_react.default.createElement(_Timer.default, {
     minutes: minutes,
-    seconds: seconds,
-    milliseconds: msDisplayed
-  }), /*#__PURE__*/_react.default.createElement(_Buttons.default, {
-    forIncrement: increment,
-    forDecrement: decrement,
-    forReset: reset,
-    forPauseResume: pauseResume,
-    pauseResumeStatus: pauseResumeText
-  })));
+    seconds: seconds
+  }), /*#__PURE__*/_react.default.createElement("div", {
+    className: "pomodoro__main__buttons"
+  }, /*#__PURE__*/_react.default.createElement(_Button.default, {
+    handleClick: increment,
+    addClass: "pomodoro__main__buttons__increment",
+    name: "+"
+  }), /*#__PURE__*/_react.default.createElement(_Button.default, {
+    handleClick: pauseResume,
+    addClass: "pomodoro__main__buttons__start-pause-resume",
+    name: pauseResumeText
+  }), /*#__PURE__*/_react.default.createElement(_Button.default, {
+    handleClick: reset,
+    addClass: "pomodoro__main__buttons__reset",
+    name: "reset"
+  }), /*#__PURE__*/_react.default.createElement(_Button.default, {
+    handleClick: decrement,
+    addClass: "pomodoro__main__buttons__decrement",
+    name: "-"
+  }))));
 };
 
 var _default = Main;
 exports.default = _default;
-},{"react":"../node_modules/react/index.js","react-dom":"../node_modules/react-dom/index.js","./Timer.js":"components/Timer.js","./Buttons.js":"components/Buttons.js"}],"../node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","react-dom":"../node_modules/react-dom/index.js","./Timer.js":"components/Timer.js","./Button.js":"components/Button.js"}],"../node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
 var bundleURL = null;
 
 function getBundleURLCached() {
@@ -29930,7 +29897,7 @@ require("./style/app.scss");
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var App = function App() {
-  return /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement(_Main.default, {
+  return /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement(_Main.default, {
     title: "Pomodoro"
   }));
 }; // export default App;
@@ -29965,7 +29932,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62119" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56600" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
