@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import ReactDOM from 'react-dom'
 import Timer from './Timer.js';
-import Buttons from './Buttons.js';
+import Button from './Button.js';
 
 const Main = ({title}) => {
   const [userDefinedProp, setUserDefinedProp] = useState(1)
@@ -9,12 +9,12 @@ const Main = ({title}) => {
   const DEFAULT_TIME = countdown
   const [runState, setRunState] = useState(false)
   const [pauseResumeText, setPauseResumeText] = useState("start")
-  const [msDisplayed, setMsDisplayed] = useState(0)
+  const [msInMemory, setMsInMemory] = useState(0)
   const [seconds, setSeconds] = useState(0)
   const [minutes, setMinutes] = useState(userDefinedProp)
+  const [firstRender, setFirstRender] = useState(true)
 
   // const manageTime = (cd) => {
-  //   getTimeMs(cd)
   //   while(countdown%1000 == 999){
   //     getTimeSeconds(cd)
   //   }
@@ -25,23 +25,23 @@ const Main = ({title}) => {
 
 
   const getTimeMs = (cd) => {
-    if(cd%1000 != 0){
-      setMsDisplayed(msDisplayed - 1)
-    }
-    else{
-      setMsDisplayed(999)
-    }
-    return msDisplayed
+    return
   }
   const getTimeSeconds = (cd) => {
     setSeconds(parseInt((cd/1000)%60))
     return seconds
   }
+
   const getTimeMinutes = (cd) => {
     setMinutes(parseInt(cd/60000))
     return minutes
-    // let minutes = parseInt(ms/60000)
   }
+
+  // if(firstRender){
+  //   setFirstRender(false)
+  //   getTimeSeconds(countdown)
+  //   getTimeMinutes(countdown)
+  // }
   useEffect(() => {
     if(runState){
       const timeTicks = setInterval(() => {
@@ -50,12 +50,11 @@ const Main = ({title}) => {
             setRunState(false)
           } else {
             // manageTime(countdown)
-            getTimeMs(countdown)
+            setCountdown(countdown - 1000)
             getTimeSeconds(countdown)
             getTimeMinutes(countdown)
-            setCountdown(countdown - 1)
           }
-      }, 1)
+      }, 1000)
       return () => clearInterval(timeTicks)
     }
   }, [countdown, runState])
@@ -85,21 +84,26 @@ const Main = ({title}) => {
   }
   const reset = () => {
     setCountdown(userDefinedProp*60000)
-    getTimeMs(countdown)
     getTimeSeconds(countdown)
     getTimeMinutes(countdown)
   }
   const decrement = () => {
     setCountdown(countdown - 60000)
   }
+
   return (
     <div className="pomodoro">
       <header className="pomodoro__header">
         <h1 className="pomodoro__header__heading">{title}</h1>
       </header>
       <main className="pomodoro__main">
-        <Timer minutes={minutes} seconds={seconds} milliseconds={msDisplayed}/>
-        <Buttons forIncrement={increment} forDecrement={decrement} forReset={reset} forPauseResume={pauseResume} pauseResumeStatus={pauseResumeText}/>
+        <Timer minutes={minutes} seconds={seconds}/>
+        <div className="pomodoro__main__buttons">
+          <Button handleClick={increment} addClass={"pomodoro__main__buttons__increment"} name={"+"}/>
+          <Button handleClick={pauseResume} addClass={"pomodoro__main__buttons__start-pause-resume"} name={pauseResumeText}/>
+          <Button handleClick={reset} addClass={"pomodoro__main__buttons__reset"} name={"reset"}/>
+          <Button handleClick={decrement} addClass={"pomodoro__main__buttons__decrement"} name={"-"}/>
+        </div>
       </main>
     </div>
   )
