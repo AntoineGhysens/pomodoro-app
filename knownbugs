@@ -1,3 +1,3 @@
-pomodoro time is slower than real time;
+FIXED pomodoro time is slower than real time;
 timer only refreshes when timer is started (doesn't refreshes when time is added, decreased or timer gets reset)
 first reset click decrease ms displayed by 1, second click sets ms displayed to 999
