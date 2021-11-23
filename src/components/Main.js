@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react'
 import ReactDOM from 'react-dom'
 import Timer from './Timer.js';
 import Button from './Button.js';
+import ResetButton from './ResetButton.js';
 
 const Main = ({title}) => {
   const [userDefinedProp, setUserDefinedProp] = useState(3)
@@ -13,6 +14,8 @@ const Main = ({title}) => {
   const [seconds, setSeconds] = useState(0)
   const [minutes, setMinutes] = useState(userDefinedProp)
   const [firstRender, setFirstRender] = useState(true)
+  const [buttonInactive, setButtonInactive] = useState(false)
+  // const [changeMin, setChangeMin] = useState(3)
 
   // const manageTime = (cd) => {
   //   while(countdown%1000 == 999){
@@ -58,12 +61,21 @@ const Main = ({title}) => {
     }
   }, [countdown, runState])
 
+  useEffect(() => {
+    setMinutes(userDefinedProp)
+    setCountdown(userDefinedProp * 60000 - 48000)
+  }, [userDefinedProp])
+
   const increment = () => {
-    if(countdown%60000 ==0){
+    if(!runState){
+      setUserDefinedProp(userDefinedProp + 1)
+
+    }
+    // if(countdown%60000 ==0){
       // setUserDefinedProp(userDefinedProp + 1)
     // if(countdown == DEFAULT_TIME){
-    setCountdown(countdown + 60000)
-    }
+    // setCountdown(countdown + 60000)
+    // }
   }
   const pauseResume = () => {
     if (runState == false){
@@ -76,12 +88,18 @@ const Main = ({title}) => {
     }
   }
   const reset = () => {
-    setCountdown(userDefinedProp*60000)
-    getTimeSeconds(countdown)
-    getTimeMinutes(countdown)
+    if(runState == false){
+      setCountdown(userDefinedProp*60000)
+      // getTimeSeconds(countdown)
+      // getTimeMinutes(countdown)
+    }
+    else{
+      setButtonInactive(true)
+    }
   }
   const decrement = () => {
-    setCountdown(countdown - 60000)
+    // setCountdown(countdown - 60000)
+    setUserDefinedProp(userDefinedProp - 1)
   }
 
   return (
@@ -94,8 +112,9 @@ const Main = ({title}) => {
         <div className="pomodoro__main__buttons">
           <Button handleClick={increment} addClass={"pomodoro__main__buttons__increment"} name={"+"}/>
           <Button handleClick={pauseResume} addClass={"pomodoro__main__buttons__start-pause-resume"} name={pauseResumeText}/>
-          <Button handleClick={reset} addClass={"pomodoro__main__buttons__reset"} name={"reset"}/>
+          <ResetButton isRunning={!runState} handleClick={reset} addClass={"pomodoro__main__buttons__reset"} disabled={buttonInactive} name={"reset"}/>
           <Button handleClick={decrement} addClass={"pomodoro__main__buttons__decrement"} name={"-"}/>
+          <div>{userDefinedProp}</div>
         </div>
       </main>
     </div>
