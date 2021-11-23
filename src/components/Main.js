@@ -63,13 +63,12 @@ const Main = ({title}) => {
 
   useEffect(() => {
     setMinutes(userDefinedProp)
-    setCountdown(userDefinedProp * 60000 - 48000)
+    setCountdown(userDefinedProp * 60000)
   }, [userDefinedProp])
 
   const increment = () => {
     if(!runState){
       setUserDefinedProp(userDefinedProp + 1)
-
     }
     // if(countdown%60000 ==0){
       // setUserDefinedProp(userDefinedProp + 1)
@@ -88,7 +87,7 @@ const Main = ({title}) => {
     }
   }
   const reset = () => {
-    if(runState == false){
+    if(!runState){
       setCountdown(userDefinedProp*60000)
       // getTimeSeconds(countdown)
       // getTimeMinutes(countdown)

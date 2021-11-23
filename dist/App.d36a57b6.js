@@ -29583,9 +29583,18 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var Timer = function Timer(_ref) {
   var minutes = _ref.minutes,
       seconds = _ref.seconds;
+
+  var lessThanTen = function lessThanTen(nb) {
+    if (nb < 10) {
+      return "0".concat(nb);
+    } else {
+      return nb;
+    }
+  };
+
   return /*#__PURE__*/_react.default.createElement("p", {
     className: "pomodoro__main__timer"
-  }, minutes, " : ", seconds);
+  }, minutes, " : ", lessThanTen(seconds));
 };
 
 var _default = Timer;
@@ -29612,9 +29621,42 @@ var Button = function Button(_ref) {
   return /*#__PURE__*/_react.default.createElement("button", {
     onClick: handleClick,
     type: "button",
-    disabled: disabled,
     className: addClass
   }, name);
+};
+
+var _default = Button;
+exports.default = _default;
+},{"react":"../node_modules/react/index.js","react-dom":"../node_modules/react-dom/index.js"}],"components/ResetButton.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _react = _interopRequireDefault(require("react"));
+
+var _reactDom = _interopRequireDefault(require("react-dom"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Button = function Button(_ref) {
+  var name = _ref.name,
+      handleClick = _ref.handleClick,
+      addClass = _ref.addClass,
+      disabled = _ref.disabled,
+      isRunning = _ref.isRunning;
+  return /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, isRunning ? /*#__PURE__*/_react.default.createElement("button", {
+    onClick: handleClick,
+    type: "button",
+    className: addClass
+  }, name) : /*#__PURE__*/_react.default.createElement("button", {
+    onClick: handleClick,
+    type: "button",
+    disabled: true,
+    className: addClass
+  }, name));
 };
 
 var _default = Button;
@@ -29634,6 +29676,8 @@ var _reactDom = _interopRequireDefault(require("react-dom"));
 var _Timer = _interopRequireDefault(require("./Timer.js"));
 
 var _Button = _interopRequireDefault(require("./Button.js"));
+
+var _ResetButton = _interopRequireDefault(require("./ResetButton.js"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -29696,7 +29740,13 @@ var Main = function Main(_ref) {
   var _useState15 = (0, _react.useState)(true),
       _useState16 = _slicedToArray(_useState15, 2),
       firstRender = _useState16[0],
-      setFirstRender = _useState16[1]; // const manageTime = (cd) => {
+      setFirstRender = _useState16[1];
+
+  var _useState17 = (0, _react.useState)(false),
+      _useState18 = _slicedToArray(_useState17, 2),
+      buttonInactive = _useState18[0],
+      setButtonInactive = _useState18[1]; // const [changeMin, setChangeMin] = useState(3)
+  // const manageTime = (cd) => {
   //   while(countdown%1000 == 999){
   //     getTimeSeconds(cd)
   //   }
@@ -29742,13 +29792,20 @@ var Main = function Main(_ref) {
       };
     }
   }, [countdown, runState]);
+  (0, _react.useEffect)(function () {
+    setMinutes(userDefinedProp);
+    setCountdown(userDefinedProp * 60000);
+  }, [userDefinedProp]);
 
   var increment = function increment() {
-    if (countdown % 60000 == 0) {
-      // setUserDefinedProp(userDefinedProp + 1)
-      // if(countdown == DEFAULT_TIME){
-      setCountdown(countdown + 60000);
-    }
+    if (!runState) {
+      setUserDefinedProp(userDefinedProp + 1);
+    } // if(countdown%60000 ==0){
+    // setUserDefinedProp(userDefinedProp + 1)
+    // if(countdown == DEFAULT_TIME){
+    // setCountdown(countdown + 60000)
+    // }
+
   };
 
   var pauseResume = function pauseResume() {
@@ -29762,13 +29819,17 @@ var Main = function Main(_ref) {
   };
 
   var reset = function reset() {
-    setCountdown(userDefinedProp * 60000);
-    getTimeSeconds(countdown);
-    getTimeMinutes(countdown);
+    if (!runState) {
+      setCountdown(userDefinedProp * 60000); // getTimeSeconds(countdown)
+      // getTimeMinutes(countdown)
+    } else {
+      setButtonInactive(true);
+    }
   };
 
   var decrement = function decrement() {
-    setCountdown(countdown - 60000);
+    // setCountdown(countdown - 60000)
+    setUserDefinedProp(userDefinedProp - 1);
   };
 
   return /*#__PURE__*/_react.default.createElement("div", {
@@ -29792,20 +29853,22 @@ var Main = function Main(_ref) {
     handleClick: pauseResume,
     addClass: "pomodoro__main__buttons__start-pause-resume",
     name: pauseResumeText
-  }), /*#__PURE__*/_react.default.createElement(_Button.default, {
+  }), /*#__PURE__*/_react.default.createElement(_ResetButton.default, {
+    isRunning: !runState,
     handleClick: reset,
     addClass: "pomodoro__main__buttons__reset",
+    disabled: buttonInactive,
     name: "reset"
   }), /*#__PURE__*/_react.default.createElement(_Button.default, {
     handleClick: decrement,
     addClass: "pomodoro__main__buttons__decrement",
     name: "-"
-  }))));
+  }), /*#__PURE__*/_react.default.createElement("div", null, userDefinedProp))));
 };
 
 var _default = Main;
 exports.default = _default;
-},{"react":"../node_modules/react/index.js","react-dom":"../node_modules/react-dom/index.js","./Timer.js":"components/Timer.js","./Button.js":"components/Button.js"}],"../node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","react-dom":"../node_modules/react-dom/index.js","./Timer.js":"components/Timer.js","./Button.js":"components/Button.js","./ResetButton.js":"components/ResetButton.js"}],"../node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
 var bundleURL = null;
 
 function getBundleURLCached() {
@@ -29926,7 +29989,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62980" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "63304" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
