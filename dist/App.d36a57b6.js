@@ -29656,7 +29656,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 var Main = function Main(_ref) {
   var title = _ref.title;
 
-  var _useState = (0, _react.useState)(1),
+  var _useState = (0, _react.useState)(3),
       _useState2 = _slicedToArray(_useState, 2),
       userDefinedProp = _useState2[0],
       setUserDefinedProp = _useState2[1];
@@ -29732,7 +29732,6 @@ var Main = function Main(_ref) {
           clearInterval(timeTicks);
           setRunState(false);
         } else {
-          // manageTime(countdown)
           setCountdown(countdown - 1000);
           getTimeSeconds(countdown);
           getTimeMinutes(countdown);
@@ -29742,19 +29741,14 @@ var Main = function Main(_ref) {
         return clearInterval(timeTicks);
       };
     }
-  }, [countdown, runState]); // useEffect(()=>{
-  //   setInterval(()=>{
-  //     console.log(countdown)
-  //   }, 5000)
-  // },[])
+  }, [countdown, runState]);
 
   var increment = function increment() {
     if (countdown % 60000 == 0) {
       // setUserDefinedProp(userDefinedProp + 1)
       // if(countdown == DEFAULT_TIME){
       setCountdown(countdown + 60000);
-    } // setDEFAULT_COUNTDOWN_MINUTES
-
+    }
   };
 
   var pauseResume = function pauseResume() {
@@ -29932,7 +29926,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56600" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62980" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

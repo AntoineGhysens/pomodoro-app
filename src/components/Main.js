@@ -4,7 +4,7 @@ import Timer from './Timer.js';
 import Button from './Button.js';
 
 const Main = ({title}) => {
-  const [userDefinedProp, setUserDefinedProp] = useState(1)
+  const [userDefinedProp, setUserDefinedProp] = useState(3)
   const [countdown, setCountdown] = useState(userDefinedProp*60000)
   const DEFAULT_TIME = countdown
   const [runState, setRunState] = useState(false)
@@ -46,31 +46,24 @@ const Main = ({title}) => {
     if(runState){
       const timeTicks = setInterval(() => {
         if(countdown === 0){
-            clearInterval(timeTicks)
-            setRunState(false)
-          } else {
-            // manageTime(countdown)
-            setCountdown(countdown - 1000)
-            getTimeSeconds(countdown)
-            getTimeMinutes(countdown)
-          }
+          clearInterval(timeTicks)
+          setRunState(false)
+        } else {
+          setCountdown(countdown - 1000)
+          getTimeSeconds(countdown)
+          getTimeMinutes(countdown)
+        }
       }, 1000)
       return () => clearInterval(timeTicks)
     }
   }, [countdown, runState])
 
-  // useEffect(()=>{
-  //   setInterval(()=>{
-  //     console.log(countdown)
-  //   }, 5000)
-  // },[])
   const increment = () => {
     if(countdown%60000 ==0){
       // setUserDefinedProp(userDefinedProp + 1)
     // if(countdown == DEFAULT_TIME){
     setCountdown(countdown + 60000)
-  }
-    // setDEFAULT_COUNTDOWN_MINUTES
+    }
   }
   const pauseResume = () => {
     if (runState == false){
