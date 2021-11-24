@@ -5,7 +5,7 @@ import Button from './Button.js';
 import ResetButton from './ResetButton.js';
 
 const Main = ({title}) => {
-  const [userDefinedProp, setUserDefinedProp] = useState(3)
+  const [userDefinedProp, setUserDefinedProp] = useState(5)
   const [countdown, setCountdown] = useState(userDefinedProp*60000)
   const DEFAULT_TIME = countdown
   const [runState, setRunState] = useState(false)
@@ -15,17 +15,6 @@ const Main = ({title}) => {
   const [minutes, setMinutes] = useState(userDefinedProp)
   const [firstRender, setFirstRender] = useState(true)
   const [buttonInactive, setButtonInactive] = useState(false)
-  // const [changeMin, setChangeMin] = useState(3)
-
-  // const manageTime = (cd) => {
-  //   while(countdown%1000 == 999){
-  //     getTimeSeconds(cd)
-  //   }
-  //   while(countdown%60000 == 59999){
-  //     getTimeMinutes(cd)
-  //   }
-  // }
-
 
   const getTimeMs = (cd) => {
     return
@@ -40,11 +29,6 @@ const Main = ({title}) => {
     return minutes
   }
 
-  // if(firstRender){
-  //   setFirstRender(false)
-  //   getTimeSeconds(countdown)
-  //   getTimeMinutes(countdown)
-  // }
   useEffect(() => {
     if(runState){
       const timeTicks = setInterval(() => {
@@ -67,14 +51,9 @@ const Main = ({title}) => {
   }, [userDefinedProp])
 
   const increment = () => {
-    if(!runState){
+    if(!runState && (userDefinedProp < 59)){
       setUserDefinedProp(userDefinedProp + 1)
     }
-    // if(countdown%60000 ==0){
-      // setUserDefinedProp(userDefinedProp + 1)
-    // if(countdown == DEFAULT_TIME){
-    // setCountdown(countdown + 60000)
-    // }
   }
   const pauseResume = () => {
     if (runState == false){
@@ -89,16 +68,16 @@ const Main = ({title}) => {
   const reset = () => {
     if(!runState){
       setCountdown(userDefinedProp*60000)
-      // getTimeSeconds(countdown)
-      // getTimeMinutes(countdown)
     }
     else{
       setButtonInactive(true)
     }
   }
   const decrement = () => {
-    // setCountdown(countdown - 60000)
-    setUserDefinedProp(userDefinedProp - 1)
+    if (!runState && (userDefinedProp > 1)){
+      setUserDefinedProp(userDefinedProp - 1)
+      setCountdown(userDefinedProp * 60000)
+    }
   }
 
   return (
@@ -113,7 +92,6 @@ const Main = ({title}) => {
           <Button handleClick={pauseResume} addClass={"pomodoro__main__buttons__start-pause-resume"} name={pauseResumeText}/>
           <ResetButton isRunning={!runState} handleClick={reset} addClass={"pomodoro__main__buttons__reset"} disabled={buttonInactive} name={"reset"}/>
           <Button handleClick={decrement} addClass={"pomodoro__main__buttons__decrement"} name={"-"}/>
-          <div>{userDefinedProp}</div>
         </div>
       </main>
     </div>

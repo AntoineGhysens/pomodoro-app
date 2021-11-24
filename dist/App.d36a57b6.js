@@ -29700,7 +29700,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 var Main = function Main(_ref) {
   var title = _ref.title;
 
-  var _useState = (0, _react.useState)(3),
+  var _useState = (0, _react.useState)(5),
       _useState2 = _slicedToArray(_useState, 2),
       userDefinedProp = _useState2[0],
       setUserDefinedProp = _useState2[1];
@@ -29745,16 +29745,7 @@ var Main = function Main(_ref) {
   var _useState17 = (0, _react.useState)(false),
       _useState18 = _slicedToArray(_useState17, 2),
       buttonInactive = _useState18[0],
-      setButtonInactive = _useState18[1]; // const [changeMin, setChangeMin] = useState(3)
-  // const manageTime = (cd) => {
-  //   while(countdown%1000 == 999){
-  //     getTimeSeconds(cd)
-  //   }
-  //   while(countdown%60000 == 59999){
-  //     getTimeMinutes(cd)
-  //   }
-  // }
-
+      setButtonInactive = _useState18[1];
 
   var getTimeMs = function getTimeMs(cd) {
     return;
@@ -29768,12 +29759,7 @@ var Main = function Main(_ref) {
   var getTimeMinutes = function getTimeMinutes(cd) {
     setMinutes(parseInt(cd / 60000));
     return minutes;
-  }; // if(firstRender){
-  //   setFirstRender(false)
-  //   getTimeSeconds(countdown)
-  //   getTimeMinutes(countdown)
-  // }
-
+  };
 
   (0, _react.useEffect)(function () {
     if (runState) {
@@ -29798,14 +29784,9 @@ var Main = function Main(_ref) {
   }, [userDefinedProp]);
 
   var increment = function increment() {
-    if (!runState) {
+    if (!runState && userDefinedProp < 59) {
       setUserDefinedProp(userDefinedProp + 1);
-    } // if(countdown%60000 ==0){
-    // setUserDefinedProp(userDefinedProp + 1)
-    // if(countdown == DEFAULT_TIME){
-    // setCountdown(countdown + 60000)
-    // }
-
+    }
   };
 
   var pauseResume = function pauseResume() {
@@ -29820,16 +29801,17 @@ var Main = function Main(_ref) {
 
   var reset = function reset() {
     if (!runState) {
-      setCountdown(userDefinedProp * 60000); // getTimeSeconds(countdown)
-      // getTimeMinutes(countdown)
+      setCountdown(userDefinedProp * 60000);
     } else {
       setButtonInactive(true);
     }
   };
 
   var decrement = function decrement() {
-    // setCountdown(countdown - 60000)
-    setUserDefinedProp(userDefinedProp - 1);
+    if (!runState && userDefinedProp > 1) {
+      setUserDefinedProp(userDefinedProp - 1);
+      setCountdown(userDefinedProp * 60000);
+    }
   };
 
   return /*#__PURE__*/_react.default.createElement("div", {
@@ -29863,7 +29845,7 @@ var Main = function Main(_ref) {
     handleClick: decrement,
     addClass: "pomodoro__main__buttons__decrement",
     name: "-"
-  }), /*#__PURE__*/_react.default.createElement("div", null, userDefinedProp))));
+  }))));
 };
 
 var _default = Main;
@@ -29989,7 +29971,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "58152" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50436" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
